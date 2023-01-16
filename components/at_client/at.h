@@ -145,9 +145,10 @@ struct at_client;
 /* URC(Unsolicited Result Code) object, such as: 'RING', 'READY' request by AT server */
 struct at_urc
 {
+    void *param;
     const char *cmd_prefix;
     const char *cmd_suffix;
-    void (*func)(struct at_client *client, const char *data, rt_size_t size);
+    void (*func)(struct at_client *client, const char *data, rt_size_t size, void *user_data);
 };
 typedef struct at_urc *at_urc_t;
 

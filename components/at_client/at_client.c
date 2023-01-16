@@ -675,7 +675,7 @@ static int at_recv_readline(at_client_t client)
     while (1)
     {
         /* getchar */
-        while (RT_EOK != at_client_getchar(client, &ch, 500000))
+        while (RT_EOK != at_client_getchar(client, &ch, RT_WAITING_FOREVER))
         {
         }
 
@@ -725,7 +725,7 @@ static void client_parser(void *param)
                 /* current receive is request, try to execute related operations */
                 if (urc->func != RT_NULL)
                 {
-                    urc->func(client, client->recv_line_buf, client->recv_line_len);
+                    urc->func(client, client->recv_line_buf, client->recv_line_len, urc->param);
                 }
             }
             else if (client->resp != RT_NULL)

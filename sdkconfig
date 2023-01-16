@@ -459,7 +459,7 @@ CONFIG_COAP_LOG_DEFAULT_LEVEL=0
 #
 # ADC configuration
 #
-CONFIG_ADC_FORCE_XPD_FSM=y
+# CONFIG_ADC_FORCE_XPD_FSM is not set
 CONFIG_ADC_DISABLE_DAC=y
 # end of ADC configuration
 

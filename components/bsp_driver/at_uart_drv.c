@@ -12,8 +12,8 @@
 #define AT_UART             UART_NUM_1
 #define AT_UART_RX_BUF_SIZE (1024)
 #define AT_UART_BAUD_RATE   (115200)
-#define AT_UART_TX_PIN      (GPIO_NUM_22)
-#define AT_UART_RX_PIN      (GPIO_NUM_23)
+#define AT_UART_TX_PIN      (GPIO_NUM_23)
+#define AT_UART_RX_PIN      (GPIO_NUM_22)
 
 typedef struct
 {
@@ -72,11 +72,15 @@ static int at_uart_read(void *buf, uint32_t length, uint32_t timeout_ms)
 
     if (-1 != at_uart_drv.fd)
     {
-        tv.tv_sec = timeout_ms / 1000;
-        tv.tv_usec = (timeout_ms % 1000) * 1000;
+        if (portMAX_DELAY != timeout_ms)
+        {
+            tv.tv_sec = timeout_ms / 1000;
+            tv.tv_usec = (timeout_ms % 1000) * 1000;
+        }
+        
         FD_ZERO(&read_set);
         FD_SET(at_uart_drv.fd, &read_set);
-        ret = select(at_uart_drv.fd + 1, &read_set, NULL, NULL, &tv);
+        ret = select(at_uart_drv.fd + 1, &read_set, NULL, NULL, (portMAX_DELAY != timeout_ms) ? (&tv) : (NULL));
 
         if ((ret > 0) && FD_ISSET(at_uart_drv.fd, &read_set))
         {
