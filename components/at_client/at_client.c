@@ -675,9 +675,7 @@ static int at_recv_readline(at_client_t client)
     while (1)
     {
         /* getchar */
-        while (RT_EOK != at_client_getchar(client, &ch, RT_WAITING_FOREVER))
-        {
-        }
+        at_client_getchar(client, &ch, RT_WAITING_FOREVER);
 
         if (read_len < client->recv_bufsz)
         {
